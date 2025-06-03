@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generative AI & LLMs Learning Cards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .filter-section {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .filter-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .filter-group label {
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .filter-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn.active {
+            background: rgba(255,255,255,0.9);
+            color: #667eea;
+            border-color: rgba(255,255,255,0.9);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: linear-gradient(135deg, #45a049, #3d8b40);
+            transform: translateY(-2px);
+        }
+        
+        .reset-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+        
+        .reset-btn:hover {
+            background: linear-gradient(135deg, #ee5a24, #d63031);
+        }
+        
+        .score-section {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .score-group {
+            color: white;
+            text-align: center;
+        }
+        
+        .score-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .score-value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-counter {
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .card-type {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .card-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .question {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        .answer {
+            display: none;
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.6;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        .answer.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .flip-button {
+            align-self: center;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            margin-top: 20px;
+        }
+        
+        .flip-button:hover {
+            background: linear-gradient(135deg, #45a049, #3d8b40);
+        }
+        
+        .scoring-buttons {
+            display: none;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .scoring-buttons.show {
+            display: flex;
+        }
+        
+        .score-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .correct-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+        
+        .incorrect-btn {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+        }
+        
+        .score-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .card-footer {
+            background: #f8f9fa;
+            padding: 15px 30px;
+            border-top: 1px solid #eee;
+            font-size: 0.9em;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .difficulty {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .difficulty.basic { background: #e3f2fd; color: #1565c0; }
+        .difficulty.intermediate { background: #fff3e0; color: #ef6c00; }
+        .difficulty.advanced { background: #fce4ec; color: #c2185b; }
+        
+        .category-tag {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .no-cards-message {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 768px) {
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .score-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Gen AI & LLMs Learning Cards</h1>
+            <p>Master Generative AI concepts with targeted practice</p>
+        </div>
+        
+        <div class="filter-section">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>📂 Categories:</label>
+                    <div class="filter-buttons" id="category-filters">
+                        <button class="filter-btn active" data-category="all">All Categories</button>
+                        <button class="filter-btn" data-category="Foundation Concepts">Foundation</button>
+                        <button class="filter-btn" data-category="Technical Deep Dives">Technical</button>
+                        <button class="filter-btn" data-category="Implementation & Production">Implementation</button>
+                        <button class="filter-btn" data-category="Security & Ethics">Security</button>
+                        <button class="filter-btn" data-category="Business Strategy">Business</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>⚡ Difficulty:</label>
+                    <div class="filter-buttons" id="difficulty-filters">
+                        <button class="filter-btn active" data-difficulty="all">All Levels</button>
+                        <button class="filter-btn" data-difficulty="basic">Basic</button>
+                        <button class="filter-btn" data-difficulty="intermediate">Intermediate</button>
+                        <button class="filter-btn" data-difficulty="advanced">Advanced</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-btn" onclick="applyFilters()">Apply Filters</button>
+                <button class="action-btn reset-btn" onclick="resetFilters()">Reset All</button>
+                <button class="action-btn" onclick="shuffleCurrentDeck()">🔀 Shuffle Deck</button>
+            </div>
+        </div>
+        
+        <div class="score-section">
+            <div class="score-group">
+                <div class="score-label">Cards in Deck</div>
+                <div class="score-value" id="deck-size">30</div>
+            </div>
+            <div class="score-group">
+                <div class="score-label">Answered</div>
+                <div class="score-value" id="answered-count">0</div>
+            </div>
+            <div class="score-group">
+                <div class="score-label">Correct</div>
+                <div class="score-value" style="color: #4CAF50;" id="correct-count">0</div>
+            </div>
+            <div class="score-group">
+                <div class="score-label">Incorrect</div>
+                <div class="score-value" style="color: #f44336;" id="incorrect-count">0</div>
+            </div>
+            <div class="score-group">
+                <div class="score-label">Accuracy</div>
+                <div class="score-value" style="color: #4CAF50;" id="accuracy">0%</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="card-counter">
+                Card <span id="current-card">1</span> of <span id="total-cards">30</span>
+            </div>
+            <div class="nav-buttons">
+                <button id="prev-btn" onclick="previousCard()">← Previous</button>
+                <button id="next-btn" onclick="nextCard()">Next →</button>
+            </div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+        
+        <div id="card-container">
+            <div class="card" id="flashcard">
+                <div class="card-header">
+                    <div class="card-type" id="card-type">Loading...</div>
+                    <div class="card-title" id="card-title">Loading...</div>
+                </div>
+                <div class="card-content">
+                    <div class="question" id="question">Loading...</div>
+                    <button class="flip-button" onclick="flipCard()">Show Answer</button>
+                    <div class="answer" id="answer">Loading...</div>
+                    <div class="scoring-buttons" id="scoring-buttons">
+                        <button class="score-btn correct-btn" onclick="scoreCard(true)">✓ Got It Right</button>
+                        <button class="score-btn incorrect-btn" onclick="scoreCard(false)">✗ Got It Wrong</button>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div>
+                        <span class="category-tag" id="category-tag">Category</span>
+                    </div>
+                    <div>
+                        <span>Difficulty:</span>
+                        <span class="difficulty" id="difficulty">Basic</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const allCards = [
+            {
+                type: "Core Concept",
+                title: "What is Generative AI?",
+                question: "How does Generative AI differ from traditional AI?",
+                answer: "Traditional AI uses predictive models to classify data and predict outcomes within specific contexts. Generative AI goes beyond prediction to create entirely new content - text, images, audio, video, and code. It generates original outputs rather than simply making predictions based on prior experience.",
+                difficulty: "basic",
+                category: "Foundation Concepts"
+            },
+            {
+                type: "Foundation",
+                title: "Large Language Models",
+                question: "What are LLMs and what makes them 'large'?",
+                answer: "LLMs are advanced AI systems designed to understand and generate human-like text. They're 'large' because they're trained on enormous datasets (petabytes) and have billions of parameters. Modern LLMs like GPT-3 have 175 billion parameters, enabling sophisticated language understanding and generation.",
+                difficulty: "basic",
+                category: "Foundation Concepts"
+            },
+            {
+                type: "Technology",
+                title: "Transformer Architecture",
+                question: "What breakthrough did the transformer architecture introduce in 2017?",
+                answer: "The transformer architecture, introduced by Google Brain in 2017, replaced traditional recurrent and convolutional structures with attention mechanisms. This allows models to understand the relevance of each word to all other words in a document, enabling better language understanding and parallel processing for faster training.",
+                difficulty: "intermediate",
+                category: "Technical Deep Dives"
+            },
+            {
+                type: "Hardware",
+                title: "GPU Acceleration",
+                question: "Why are GPUs essential for LLM training and inference?",
+                answer: "GPUs have thousands of cores that can process multiple tasks simultaneously, unlike CPUs which are designed for sequential processing. This parallel processing capability is crucial for the matrix operations and computationally intensive calculations involved in training and running LLMs efficiently.",
+                difficulty: "intermediate",
+                category: "Technical Deep Dives"
+            },
+            {
+                type: "Data Strategy",
+                title: "Enterprise Data Integration",
+                question: "What percentage of enterprise data is unstructured, and why is this important for Gen AI?",
+                answer: "According to MIT research, 80-90% of enterprise data is unstructured (text, audio, social media, etc.). Gen AI can unlock this previously inaccessible data, providing competitive advantages when combined with traditional structured data analytics.",
+                difficulty: "basic",
+                category: "Foundation Concepts"
+            },
+            {
+                type: "Model Types",
+                title: "Foundation vs Task-Specific Models",
+                question: "What's the difference between foundation models and task-specific LLMs?",
+                answer: "Foundation models are general-purpose models suitable for wide ranges of use cases that can be specialized for specific applications. Task-specific models like Meta's Code Llama are specialized for particular tasks (code generation). Domain-specific models like BioBERT are trained for specific industries (biomedical research).",
+                difficulty: "intermediate",
+                category: "Foundation Concepts"
+            },
+            {
+                type: "Key Terms",
+                title: "Prompt, Completion, Inference",
+                question: "Define the three key terms: prompt, completion, and inference in LLM context.",
+                answer: "Prompt: The text input you provide to a language model. Completion: The result/output generated by the model. Inference: The process of using the trained model to generate text/responses from new inputs.",
+                difficulty: "basic",
+                category: "Foundation Concepts"
+            },
+            {
+                type: "Technical Concept",
+                title: "Vector Embeddings",
+                question: "What are vector embeddings and why are they important for LLMs?",
+                answer: "Vector embeddings are mathematical representations of words/text as numbers in multidimensional space. They enable efficient storage, searching, and comparison of data based on semantic similarity rather than exact matches, which is crucial for LLM operations and retrieval systems.",
+                difficulty: "advanced",
+                category: "Technical Deep Dives"
+            },
+            {
+                type: "Customization",
+                title: "Prompt Engineering",
+                question: "What is prompt engineering and what are zero-shot, one-shot, and few-shot prompting?",
+                answer: "Prompt engineering is crafting inputs to shape LLM outputs. Zero-shot: asking questions without examples. One-shot: providing one example of desired output. Few-shot: providing multiple examples to teach the LLM the desired output structure and language.",
+                difficulty: "intermediate",
+                category: "Technical Deep Dives"
+            },
+            {
+                type: "Advanced Technique",
+                title: "Retrieval-Augmented Generation (RAG)",
+                question: "What is RAG and how does it enhance LLM capabilities?",
+                answer: "RAG combines pretrained language models with large-scale vector search systems. It retrieves relevant data (like current news or proprietary documents) and incorporates it into prompts, addressing LLM limitations like outdated information and lack of domain-specific knowledge.",
+                difficulty: "advanced",
+                category: "Technical Deep Dives"
+            },
+            {
+                type: "Customization",
+                title: "Fine-tuning Process",
+                question: "What are the three basic steps of fine-tuning an LLM?",
+                answer: "1) Select the pretrained LLM most relevant to your use case. 2) Identify training datasets related to your use case to refine the LLM with examples of prompts and expected responses. 3) Evaluate the fine-tuned LLM and adjust parameters like learning rate and batch size to improve outcomes.",
+                difficulty: "advanced",
+                category: "Technical Deep Dives"
+            },
+            {
+                type: "Advanced Method",
+                title: "Reinforcement Learning from Human Feedback",
+                question: "What is RLHF and how does it improve LLM performance?",
+                answer: "RLHF is a fine-tuning technique that uses human feedback to guide model learning in near real-time. It helps models better understand human prompts, generate more human-like responses, align with preferences, and avoid harmful content by learning from human evaluators.",
+                difficulty: "advanced",
+                category: "Technical Deep Dives"
+            },
+            {
+                type: "Infrastructure",
+                title: "Cloud Data Platform Benefits",
+                question: "What are the key advantages of using a cloud data platform for Gen AI projects?",
+                answer: "Unified data security and governance, scalable infrastructure without maintenance overhead, support for all data types (structured/unstructured), easy collaboration across teams, and the ability to bring processing to data rather than moving data to external systems.",
+                difficulty: "intermediate",
+                category: "Implementation & Production"
+            },
+            {
+                type: "Production",
+                title: "Data Pipeline Adaptations",
+                question: "What three new components must be added to traditional data pipelines for LLMs?",
+                answer: "1) Semantic caching: storing semantic representations for faster responses. 2) Feature injection: incorporating additional information to enhance model performance. 3) Context retrieval: retrieving relevant contextual information for more accurate and personalized outputs.",
+                difficulty: "advanced",
+                category: "Implementation & Production"
+            },
+            {
+                type: "Performance",
+                title: "Latency Reduction",
+                question: "What is the key strategy for reducing latency in Gen AI applications?",
+                answer: "Keep processing close to the data. This reduces data transfer between compute and storage layers, improving performance while reducing costs and security risks. Other strategies include using smaller models, optimizing for inference, and using efficient hardware.",
+                difficulty: "intermediate",
+                category: "Implementation & Production"
+            },
+            {
+                type: "Development",
+                title: "User Interface Types",
+                question: "What are the main types of user interfaces for Gen AI applications?",
+                answer: "Web apps (most common, accessible from any browser), mobile apps (immersive experience), chat interfaces (for conversational AI), desktop apps (for high processing power needs), and command-line interfaces (for developers and data scientists).",
+                difficulty: "basic",
+                category: "Implementation & Production"
+            },
+            {
+                type: "Architecture",
+                title: "AI Agent Orchestration",
+                question: "What is AI agent orchestration and how does it enhance LLM capabilities?",
+                answer: "Orchestration coordinates multiple AI agents (specialized LLM instances) to accomplish complex tasks. It organizes agents, coordinates input/output between models, and manages data flow. This enables LLMs to connect to external applications, APIs, and databases for enhanced functionality.",
+                difficulty: "advanced",
+                category: "Technical Deep Dives"
+            },
+            {
+                type: "Security",
+                title: "Data Governance Principles",
+                question: "What are the three key steps for ensuring security and governance in Gen AI projects?",
+                answer: "1) Choose vendors with proven security records and third-party certifications. 2) Appoint data stewards and establish consistent procedures for data security, privacy, and governance. 3) Continuously monitor and audit Gen AI applications during development and production.",
+                difficulty: "intermediate",
+                category: "Security & Ethics"
+            },
+            {
+                type: "Ethics",
+                title: "Bias Mitigation",
+                question: "How can bias in LLMs be addressed and what are the 'three Hs' of responsible AI?",
+                answer: "Bias comes from training data and can perpetuate discrimination. Mitigation involves using diverse, representative training data and continuous monitoring. The three Hs of responsible AI deployment are: Helpfulness, Honesty, and Harmlessness.",
+                difficulty: "intermediate",
+                category: "Security & Ethics"
+            },
+            {
+                type: "Risk Management",
+                title: "LLM Hallucinations",
+                question: "What are hallucinations in LLMs and how can they be mitigated?",
+                answer: "Hallucinations occur when LLMs generate fictional or erroneous content that appears plausible. Mitigation strategies include fine-tuning with reliable data, incorporating human review and oversight, and continuously monitoring and refining systems to minimize false information.",
+                difficulty: "intermediate",
+                category: "Security & Ethics"
+            },
+            {
+                type: "Legal",
+                title: "Copyright Considerations",
+                question: "What copyright issues surround LLM training data?",
+                answer: "Authors and content creators have filed lawsuits claiming LLMs illegally use copyrighted works in training without permission. The Authors Guild lawsuit against OpenAI exemplifies concerns about 'flagrant' copyright infringement. Enterprises should be aware of content implications in their Gen AI endeavors.",
+                difficulty: "intermediate",
+                category: "Security & Ethics"
+            },
+            {
+                type: "Model Selection",
+                title: "Small vs Large Language Models",
+                question: "When should you choose smaller LLMs over larger ones?",
+                answer: "Smaller LLMs (fewer parameters) consume less computational resources, are faster to fine-tune and deploy, and are more cost-effective for specific tasks. Larger LLMs provide more accurate, contextually relevant outputs for wider scenarios but require more resources. It's a cost-performance tradeoff.",
+                difficulty: "intermediate",
+                category: "Implementation & Production"
+            },
+            {
+                type: "Implementation",
+                title: "Container Deployment",
+                question: "Why are containers important for LLM applications and what challenges do they present?",
+                answer: "Containers (like Docker) package LLM applications for consistent deployment across environments. However, the complexity of managing AI workloads at scale forces developers to spend time on infrastructure instead of development. Cloud data platforms can provide fully managed container services.",
+                difficulty: "advanced",
+                category: "Implementation & Production"
+            },
+            {
+                type: "Cost Management",
+                title: "Cloud Platform Pricing",
+                question: "What are the three key cost metrics for cloud data platforms and why is usage-based pricing important?",
+                answer: "The three metrics are: data transfer volume, data storage consumption, and compute resources. Usage-based pricing with per-second billing prevents paying for unused capacity, unlike subscription-based pricing which can cause significant costs and requires regular management.",
+                difficulty: "intermediate",
+                category: "Implementation & Production"
+            },
+            {
+                type: "Enterprise Strategy",
+                title: "Data Types Integration",
+                question: "What three types of data should enterprises consider for Gen AI projects?",
+                answer: "1) First-party data: internal data from business interactions. 2) Second-party data: from trusted partners and collaborators. 3) Third-party data: from external sources to enrich internal datasets, such as market data and supply chain information.",
+                difficulty: "basic",
+                category: "Foundation Concepts"
+            },
+            {
+                type: "Development Tools",
+                title: "LLM Frameworks",
+                question: "What are three popular frameworks for working with LLMs?",
+                answer: "1) OpenAI GPT Playground: for experimenting with models like GPT-3 via APIs. 2) Snowflake Cortex: fully managed service with industry-leading models and vector search. 3) Hugging Face Transformer Library: open-source library for working with pretrained models like BERT and GPT.",
+                difficulty: "intermediate",
+                category: "Implementation & Production"
+            },
+            {
+                type: "Business Application",
+                title: "LLM Use Cases",
+                question: "What are the four main categories of LLM applications in enterprise?",
+                answer: "1) Content generation: creating text, images, marketing materials. 2) Logical reasoning: sentiment analysis, understanding textual data. 3) Translation: converting text between languages. 4) Text retrieval and search: finding relevant information and generating summaries.",
+                difficulty: "basic",
+                category: "Business Strategy"
+            },
+            {
+                type: "Project Lifecycle",
+                title: "Gen AI Project Steps",
+                question: "What are the main phases of the Gen AI project lifecycle?",
+                answer: "1) Define use case and scope, determine proprietary data needs. 2) Select appropriate LLM (hosted vs open-source). 3) Adapt LLMs through prompt engineering, fine-tuning, or RAG. 4) Implement and deploy applications. 5) Monitor and maintain in production.",
+                difficulty: "basic",
+                category: "Business Strategy"
+            },
+            {
+                type: "Success Strategy",
+                title: "Five Steps to Generative AI",
+                question: "What are the five key steps for successful Gen AI implementation?",
+                answer: "1) Identify business problems and rank by impact. 2) Select a comprehensive data platform. 3) Build a data foundation with consistent governance. 4) Create a culture of collaboration across teams. 5) Measure, learn, and celebrate successes while sharing best practices.",
+                difficulty: "basic",
+                category: "Business Strategy"
+            },
+            {
+                type: "Technical Deep Dive",
+                title: "Vector Databases",
+                question: "Why are vector databases crucial for LLM applications and what is their key capability?",
+                answer: "Vector databases enable efficient storage, retrieval, and manipulation of vector embeddings. They assign unique keys to vectors for quick access and are particularly valuable for RAG applications where rapid retrieval and semantic matching allow models to discover related text and content.",
+                difficulty: "advanced",
+                category: "Technical Deep Dives"
+            }
+        ];
+
+        let currentDeck = [...allCards];
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let selectedCategory = 'all';
+        let selectedDifficulty = 'all';
+        
+        // Scoring system
+        let score = {
+            answered: 0,
+            correct: 0,
+            incorrect: 0,
+            cardScores: new Map() // Track individual card scores
+        };
+
+        function initializeApp() {
+            setupFilterListeners();
+            updateDeckInfo();
+            loadCard(currentCardIndex);
+            updateScoreDisplay();
+        }
+
+        function setupFilterListeners() {
+            // Category filter listeners
+            document.getElementById('category-filters').addEventListener('click', function(e) {
+                if (e.target.classList.contains('filter-btn')) {
+                    // Remove active class from all category buttons
+                    document.querySelectorAll('#category-filters .filter-btn').forEach(btn => 
+                        btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    e.target.classList.add('active');
+                    selectedCategory = e.target.getAttribute('data-category');
+                }
+            });
+
+            // Difficulty filter listeners
+            document.getElementById('difficulty-filters').addEventListener('click', function(e) {
+                if (e.target.classList.contains('filter-btn')) {
+                    // Remove active class from all difficulty buttons
+                    document.querySelectorAll('#difficulty-filters .filter-btn').forEach(btn => 
+                        btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    e.target.classList.add('active');
+                    selectedDifficulty = e.target.getAttribute('data-difficulty');
+                }
+            });
+        }
+
+        function applyFilters() {
+            let filteredCards = allCards.filter(card => {
+                const categoryMatch = selectedCategory === 'all' || card.category === selectedCategory;
+                const difficultyMatch = selectedDifficulty === 'all' || card.difficulty === selectedDifficulty;
+                return categoryMatch && difficultyMatch;
+            });
+
+            if (filteredCards.length === 0) {
+                showNoCardsMessage();
+                return;
+            }
+
+            currentDeck = [...filteredCards];
+            currentCardIndex = 0;
+            resetCardState();
+            updateDeckInfo();
+            loadCard(currentCardIndex);
+        }
+
+        function resetFilters() {
+            // Reset filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-category="all"]').classList.add('active');
+            document.querySelector('[data-difficulty="all"]').classList.add('active');
+            
+            selectedCategory = 'all';
+            selectedDifficulty = 'all';
+            currentDeck = [...allCards];
+            currentCardIndex = 0;
+            
+            // Reset scoring
+            score = {
+                answered: 0,
+                correct: 0,
+                incorrect: 0,
+                cardScores: new Map()
+            };
+            
+            resetCardState();
+            updateDeckInfo();
+            loadCard(currentCardIndex);
+            updateScoreDisplay();
+            hideNoCardsMessage();
+        }
+
+        function shuffleCurrentDeck() {
+            for (let i = currentDeck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentDeck[i], currentDeck[j]] = [currentDeck[j], currentDeck[i]];
+            }
+            currentCardIndex = 0;
+            resetCardState();
+            loadCard(currentCardIndex);
+        }
+
+        function showNoCardsMessage() {
+            document.getElementById('card-container').innerHTML = `
+                <div class="no-cards-message">
+                    <h3>📭 No Cards Found</h3>
+                    <p>No cards match your current filter selection.</p>
+                    <p>Try selecting different categories or difficulty levels.</p>
+                </div>
+            `;
+            document.querySelector('.controls').style.display = 'none';
+        }
+
+        function hideNoCardsMessage() {
+            document.querySelector('.controls').style.display = 'flex';
+            if (document.querySelector('.no-cards-message')) {
+                document.getElementById('card-container').innerHTML = `
+                    <div class="card" id="flashcard">
+                        <div class="card-header">
+                            <div class="card-type" id="card-type">Loading...</div>
+                            <div class="card-title" id="card-title">Loading...</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="question" id="question">Loading...</div>
+                            <button class="flip-button" onclick="flipCard()">Show Answer</button>
+                            <div class="answer" id="answer">Loading...</div>
+                            <div class="scoring-buttons" id="scoring-buttons">
+                                <button class="score-btn correct-btn" onclick="scoreCard(true)">✓ Got It Right</button>
+                                <button class="score-btn incorrect-btn" onclick="scoreCard(false)">✗ Got It Wrong</button>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div>
+                                <span class="category-tag" id="category-tag">Category</span>
+                            </div>
+                            <div>
+                                <span>Difficulty:</span>
+                                <span class="difficulty" id="difficulty">Basic</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function updateDeckInfo() {
+            document.getElementById('deck-size').textContent = currentDeck.length;
+            document.getElementById('total-cards').textContent = currentDeck.length;
+        }
+
+        function resetCardState() {
+            isFlipped = false;
+            const answerEl = document.getElementById('answer');
+            const flipButton = document.querySelector('.flip-button');
+            const scoringButtons = document.getElementById('scoring-buttons');
+            
+            if (answerEl) answerEl.classList.remove('show');
+            if (flipButton) flipButton.style.display = 'block';
+            if (scoringButtons) scoringButtons.classList.remove('show');
+        }
+
+        function loadCard(index) {
+            if (currentDeck.length === 0) {
+                showNoCardsMessage();
+                return;
+            }
+
+            const card = currentDeck[index];
+            document.getElementById('card-type').textContent = card.type;
+            document.getElementById('card-title').textContent = card.title;
+            document.getElementById('question').textContent = card.question;
+            document.getElementById('answer').textContent = card.answer;
+            document.getElementById('difficulty').textContent = card.difficulty;
+            document.getElementById('difficulty').className = `difficulty ${card.difficulty}`;
+            document.getElementById('category-tag').textContent = card.category;
+            
+            resetCardState();
+            
+            // Update counter and progress
+            document.getElementById('current-card').textContent = index + 1;
+            document.getElementById('progress').style.width = `${((index + 1) / currentDeck.length) * 100}%`;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = index === 0;
+            document.getElementById('next-btn').disabled = index === currentDeck.length - 1;
+        }
+
+        function flipCard() {
+            if (!isFlipped && currentDeck.length > 0) {
+                document.getElementById('answer').classList.add('show');
+                document.querySelector('.flip-button').style.display = 'none';
+                document.getElementById('scoring-buttons').classList.add('show');
+                isFlipped = true;
+            }
+        }
+
+        function scoreCard(isCorrect) {
+            const cardId = `${currentDeck[currentCardIndex].title}-${currentCardIndex}`;
+            
+            // Only score if not already scored
+            if (!score.cardScores.has(cardId)) {
+                score.answered++;
+                if (isCorrect) {
+                    score.correct++;
+                } else {
+                    score.incorrect++;
+                }
+                score.cardScores.set(cardId, isCorrect);
+                updateScoreDisplay();
+            }
+            
+            // Auto-advance to next card after brief delay
+            setTimeout(() => {
+                nextCard();
+            }, 500);
+        }
+
+        function updateScoreDisplay() {
+            document.getElementById('answered-count').textContent = score.answered;
+            document.getElementById('correct-count').textContent = score.correct;
+            document.getElementById('incorrect-count').textContent = score.incorrect;
+            
+            const accuracy = score.answered > 0 ? Math.round((score.correct / score.answered) * 100) : 0;
+            document.getElementById('accuracy').textContent = `${accuracy}%`;
+            
+            // Update accuracy color based on performance
+            const accuracyEl = document.getElementById('accuracy');
+            if (accuracy >= 80) {
+                accuracyEl.style.color = '#4CAF50';
+            } else if (accuracy >= 60) {
+                accuracyEl.style.color = '#FF9800';
+            } else {
+                accuracyEl.style.color = '#f44336';
+            }
+        }
+
+        function nextCard() {
+            if (currentCardIndex < currentDeck.length - 1) {
+                currentCardIndex++;
+                loadCard(currentCardIndex);
+            }
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                loadCard(currentCardIndex);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'ArrowLeft':
+                    previousCard();
+                    break;
+                case 'ArrowRight':
+                    nextCard();
+                    break;
+                case ' ':
+                    event.preventDefault();
+                    flipCard();
+                    break;
+                case '1':
+                    if (isFlipped) scoreCard(true);
+                    break;
+                case '2':
+                    if (isFlipped) scoreCard(false);
+                    break;
+            }
+        });
+
+        // Initialize the app
+        initializeApp();
+    </script>
+</body>
+</html>
