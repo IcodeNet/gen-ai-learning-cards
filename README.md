@@ -10,7 +10,7 @@ Interactive flashcards based on "Generative AI and LLMs For Dummies, Snowflake S
 - Progress tracking
 
 ## Live Demo
-[View App](https://yourusername.github.io/gen-ai-learning-cards)
+[View App](https://IcodeNet.github.io/gen-ai-learning-cards)
 
 ## Usage
 - Use arrow keys or buttons to navigate
